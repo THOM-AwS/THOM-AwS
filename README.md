@@ -1,38 +1,51 @@
-### Hi there 👋
+# My IT Philosophy
 
-<strong><b>First I drink the Coffee, then I do the things.</b></strong>
+**First I drink the Coffee, then I do the things.**
 
-1. If it's not in git, it doesn’t go in a compute instance, account or a piece of infrastructure.
-  - Git is the single source of truth and contains a complete history of all code changes.
-  - A complete audit trail
-  - Non repudiation
-  - Everything is code
-2. Changes are to be run through pipelines
-  - Everything is automated
-4. Every change is to be subject to a proper peer review by a person who is capable of understanding the subject matter
-5. Diffs are not permitted between Production and its proceeding environment (non prod/preprod)
-  - Test everything before production release
-  - Everyone has a test account, we separate ours from the production account
-  - We start in a test account
-6. No changes or write access to production without a very good reason
-  - No humans in production
-7. Secure run
-  - Everything gets patched
-  - Everything gets backups
-  - Everything gets monitoring. Critical items get alerting, you must be alerted if something is broken
-8. Documentation, You need to document what you have created and how it works so that it can be repaired or replaced in 10 years.
+## Before I Build Anything
 
-<!--
-**THOM-AwS/THOM-AwS** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Ask the questions first:**
+- How many users? Where do they live?
+- Does it need eleven-nines uptime or can we restart it Tuesday afternoon?
+- How many engineers maintain this? (2 people shouldn't babysit 50 microservices)
+- **What's the budget?** If I wouldn't spend my own money on it, why should the org?
 
-Here are some ideas to get you started:
+**Then build the simplest thing that works:**
+- Monolith first. Microservices are a tax on complexity - only pay it when you must
+- Can it still vertically scale? Modern boxes are beasts. Don't distribute prematurely
+- Pick your database by query pattern, not hype. Joins? SQL. Key lookups? K/V. Everything else? Probably still SQL
+- SAGA pattern only when distributed transactions are unavoidable. Spoiler: they're usually avoidable
+- Do you really, REALLY need to have kubernetes or will a lambda do?
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+**Make it observable:**
+- If you can't see it, you can't fix it
+- If it's broken and no one knows, is it really running?
+- Alerts wake you up. Metrics let you sleep
+
+## How I Ship Code
+
+**Git is the source of truth.**  
+If it's not in git, it doesn't exist. Complete history, complete audit trail, no arguments.
+
+**Pipelines, not people.**  
+Automate everything. Manual deployments are just future incidents waiting to happen.
+
+**Peer review, always.**  
+By someone who actually understands what they're reviewing. No rubber stamps.
+
+**Test in non-prod, deploy to prod.**  
+Zero config drift between environments. If prod is special, you're doing it wrong.
+
+**No humans in production.**  
+Read-only access is fine. Write access requires a very good reason and an even better audit trail.
+
+**Run it securely:**
+- Patch it
+- Back it up (and test the restore)
+- Monitor it (alert if critical)
+
+**Document it like you'll forget it.**  
+Because in 10 years, you will have.
+
+**Spend it like it's your money.**  
+Because cloud bills compound like credit cards. If you wouldn't pay for it personally, justify it to the org.
